@@ -1,6 +1,7 @@
 package org.trading.asset_exchange.application.command;
 
 import jakarta.annotation.PostConstruct;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -18,6 +19,7 @@ import org.trading.asset_exchange.domain.aggregation.model.AggregatedPrice;
 import org.trading.asset_exchange.infrastruture.config.ProviderConfig;
 import org.trading.asset_exchange.infrastruture.config.ProviderConfig.ProviderEntry;
 import org.trading.asset_exchange.infrastruture.mapper.FxdsData;
+import org.trading.asset_exchange.util.DateTimeFormatterUtil;
 
 @Service
 @Slf4j
@@ -53,6 +55,14 @@ public class PublicExchangeFetcher implements Command<String, List<AggregatedPri
 
     switch (provider) {
       case FXDS:
+        //noted update start_date and end_date
+        //end_date is day now formatted YYYY-MM-DD
+        LocalDate endDate = DateTimeFormatterUtil.now();
+        entry.getParameters().put("end_date", DateTimeFormatterUtil.getFormattedDate(endDate, DateTimeFormatterUtil.YYYY_MM_DD));
+        LocalDate startDate = endDate.minusDays(1);
+        entry.getParameters().put("start_date", DateTimeFormatterUtil.getFormattedDate(startDate, DateTimeFormatterUtil.YYYY_MM_DD));
+
+
         var fxdsPrices = ((FxdsApiFetcher) fetcher).fetchData(entry.getUrl(),
             entry.getParameters());
         return fxdsPrices.stream()
