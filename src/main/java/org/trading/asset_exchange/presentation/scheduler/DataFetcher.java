@@ -24,6 +24,8 @@ public class DataFetcher {
     for (ProviderEntry entry : providerConfig.getProviderEntries()){
       List<AggregatedPrice> patchedData = publicExchangeFetcher.execute(entry.getName());
       log.debug("Fetched data for provider: {} data: {}",entry.getName(),patchedData);
+      aggregatedPrices.addAll(patchedData);
     }
+
   }
 }
