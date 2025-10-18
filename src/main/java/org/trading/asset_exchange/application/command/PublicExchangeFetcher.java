@@ -22,14 +22,15 @@ import org.trading.asset_exchange.infrastruture.mapper.FxdsData;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-class PublicExchangeFetcher implements Command<String, List<AggregatedPrice>>{
+public class PublicExchangeFetcher implements Command<String, List<AggregatedPrice>>{
 
   private final Map<String, Triple<SourceProvider,Fetcher,ProviderEntry>> FACTORY = new ConcurrentHashMap<>();
   private final ProviderConfig providerConfig;
   private final Transformer<FxdsData,AggregatedPrice> transformer;
+  private final ApplicationContext context;
 
   @PostConstruct
-  void init(ApplicationContext context) {
+  void init() {
     for( ProviderEntry entry : providerConfig.getProviderEntries() ) {
       SourceProvider sourceProvider = SourceProvider.getProviderByName(entry.getName());
       if(sourceProvider == null) {continue;}

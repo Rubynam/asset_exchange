@@ -5,13 +5,14 @@ import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.trading.asset_exchange.infrastruture.mapper.FxdsData;
 
-@Service
+@Service("FxdsApiFetcher")
 public class FxdsApiFetcher extends Fetcher {
 
   public FxdsApiFetcher(RestTemplate restTemplate) {
@@ -19,10 +20,12 @@ public class FxdsApiFetcher extends Fetcher {
   }
 
   public List<FxdsData> fetchData(String url, Map<String,String> parameter) throws Exception {
+    HttpEntity<Void> requestEntity = (HttpEntity<Void>) HttpEntity.EMPTY; // or add headers if needed
+
     return super.<FxdsDataWrapper>fetch(
             url,
             HttpMethod.GET,
-            null,
+            requestEntity,
             FxdsDataWrapper.class,
             parameter
         ).getResponse();

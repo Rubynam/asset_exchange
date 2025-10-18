@@ -34,4 +34,19 @@ public class AggregatedPrice {
   private String highAsk;
   private String lowBid;
   private String lowAsk;
+
+  @Override
+  public String toString() {
+    return "{\"AggregatedPrice\":{"
+        + "        \"baseCurrency\":\"" + baseCurrency + "\""
+        + ",         \"quoteCurrency\":\"" + quoteCurrency + "\""
+        + ",         \"closeTime\":\"" + closeTime + "\""
+        + ",         \"averageBid\":\"" + averageBid + "\""
+        + ",         \"averageAsk\":\"" + averageAsk + "\""
+        + ",         \"highBid\":\"" + highBid + "\""
+        + ",         \"highAsk\":\"" + highAsk + "\""
+        + ",         \"lowBid\":\"" + lowBid + "\""
+        + ",         \"lowAsk\":\"" + lowAsk + "\""
+        + "}}";
+  }
 }

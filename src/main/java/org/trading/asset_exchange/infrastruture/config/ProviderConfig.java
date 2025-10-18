@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "providers")
 @Getter
+@Setter
 public class ProviderConfig {
 
   private List<ProviderEntry> providerEntries;
