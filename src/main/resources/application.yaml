@@ -1,5 +1,7 @@
 server:
   port: 8080
+  servlet:
+    context-path: /api
 
 schedule:
   fixed-rate: 10000
@@ -14,3 +16,25 @@ providers:
         start_date: 2025-03-26
         end_date: 2025-03-27
         data_type: chart
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:crypto-trading-db;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:/db/migration/schema.sql,classpath:/db/migration/import.sql
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      enabled: false
+      path: /h2-console

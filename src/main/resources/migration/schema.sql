@@ -22,17 +22,6 @@ CREATE TABLE CURRENCY_PAIR (
 );
 
 
-/*
-  private String baseCurrency;
-  private String quoteCurrency;
-  private String closeTime;
-  private String averageBid;
-  private String averageAsk;
-  private String highBid;
-  private String highAsk;
-  private String lowBid;
-  private String lowAsk;
-*/
 CREATE TABLE IF NOT EXISTS price (
      id BIGINT AUTO_INCREMENT PRIMARY KEY,
      base_currency  TEXT NOT NULL,

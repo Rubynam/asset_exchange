@@ -13,8 +13,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.trading.asset_exchange.application.port.Transformer;
 import org.trading.asset_exchange.domain.SourceProvider;
-import org.trading.asset_exchange.domain.aggregation.Fetcher;
-import org.trading.asset_exchange.domain.aggregation.FxdsApiFetcher;
+import org.trading.asset_exchange.domain.aggregation.service.Fetcher;
+import org.trading.asset_exchange.domain.aggregation.service.FxdsApiFetcher;
 import org.trading.asset_exchange.domain.aggregation.model.AggregatedPrice;
 import org.trading.asset_exchange.infrastruture.config.ProviderConfig;
 import org.trading.asset_exchange.infrastruture.config.ProviderConfig.ProviderEntry;
@@ -52,17 +52,10 @@ public class PublicExchangeFetcher implements Command<String, List<AggregatedPri
 
     SourceProvider provider = triple.getLeft();
     Fetcher fetcher = triple.getMiddle();
+    updateStartDateAndEndDate(entry);
 
     switch (provider) {
       case FXDS:
-        //noted update start_date and end_date
-        //end_date is day now formatted YYYY-MM-DD
-        LocalDate endDate = DateTimeFormatterUtil.now();
-        entry.getParameters().put("end_date", DateTimeFormatterUtil.getFormattedDate(endDate, DateTimeFormatterUtil.YYYY_MM_DD));
-        LocalDate startDate = endDate.minusDays(1);
-        entry.getParameters().put("start_date", DateTimeFormatterUtil.getFormattedDate(startDate, DateTimeFormatterUtil.YYYY_MM_DD));
-
-
         var fxdsPrices = ((FxdsApiFetcher) fetcher).fetchData(entry.getUrl(),
             entry.getParameters());
         return fxdsPrices.stream()
@@ -71,5 +64,14 @@ public class PublicExchangeFetcher implements Command<String, List<AggregatedPri
       default:
         throw new IllegalStateException("Unexpected value: " + provider);
     }
+  }
+
+  private void updateStartDateAndEndDate(ProviderEntry entry) {
+    //noted update start_date and end_date
+    //end_date is day now formatted YYYY-MM-DD
+    LocalDate endDate = DateTimeFormatterUtil.now();
+    entry.getParameters().put("end_date", DateTimeFormatterUtil.getFormattedDate(endDate, DateTimeFormatterUtil.YYYY_MM_DD));
+    LocalDate startDate = endDate.minusDays(1);
+    entry.getParameters().put("start_date", DateTimeFormatterUtil.getFormattedDate(startDate, DateTimeFormatterUtil.YYYY_MM_DD));
   }
 }

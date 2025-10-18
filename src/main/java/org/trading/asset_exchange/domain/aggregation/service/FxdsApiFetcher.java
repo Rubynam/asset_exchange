@@ -1,4 +1,4 @@
-package org.trading.asset_exchange.domain.aggregation;
+package org.trading.asset_exchange.domain.aggregation.service;
 
 import java.util.List;
 import java.util.Map;

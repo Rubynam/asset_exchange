@@ -1,7 +1,7 @@
 package org.trading.asset_exchange.domain;
 
 import lombok.Getter;
-import org.trading.asset_exchange.domain.aggregation.FxdsApiFetcher;
+import org.trading.asset_exchange.domain.aggregation.service.FxdsApiFetcher;
 import org.trading.asset_exchange.infrastruture.config.ProviderConfig.ProviderEntry;
 
 @Getter
