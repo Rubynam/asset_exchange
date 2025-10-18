@@ -6,4 +6,10 @@ schedule:
 
 providers:
   - name: FXDS
-    url: https://www.bitstamp.net/api/v2/ticker/btcusd/
+    url: https://fxds-public-exchange-rates-api.oanda.com/cc-api/currencies
+    parameters:
+      base: EUR
+      quote: USD
+      start_date: 2025-01-01
+      end_date: 2025-01-01
+      data_type: chart
