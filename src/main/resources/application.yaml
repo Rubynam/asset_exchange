@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+schedule:
+  fixed-rate: 10000
+
+providers:
+  providerEntries:
+    - name: FXDS
+      url: https://fxds-public-exchange-rates-api.oanda.com/cc-api/currencies?base={base}&quote={quote}&start_date={start_date}&end_date={end_date}&data_type={data_type}
+      parameters:
+        base: EUR
+        quote: USD
+        start_date: 2025-03-26
+        end_date: 2025-03-27
+        data_type: chart
