@@ -22,5 +22,12 @@ public class ProviderConfig {
     private String url;
     private Map<String, String> parameters;
 
+    @Override
+    public String toString() {
+      return "ProviderEntry{" +
+          "name='" + name + '\'' +
+          ", url='" + url + '\'' +
+          '}';
+    }
   }
 }

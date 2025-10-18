@@ -35,6 +35,7 @@ class PublicExchangeFetcher implements Command<String, List<AggregatedPrice>>{
       if(sourceProvider == null) {continue;}
 
       Fetcher fetcher = context.getBean(sourceProvider.getFetcherClass(), Fetcher.class);
+      log.debug("Registered fetcher for provider: {} providerEntry {}",entry.getName(),entry);
       Triple<SourceProvider,Fetcher,ProviderEntry> triple = Triple.of(sourceProvider,fetcher,entry);
       FACTORY.put(entry.getName(), triple);
     }
