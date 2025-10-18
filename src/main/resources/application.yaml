@@ -1,5 +1,5 @@
 server:
-  address: 8080
+  port: 8080
 
 schedule:
   cron: 0 0 0 * * *
