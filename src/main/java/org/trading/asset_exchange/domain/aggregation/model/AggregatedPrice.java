@@ -1,7 +1,10 @@
 package org.trading.asset_exchange.domain.aggregation.model;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  {
@@ -17,6 +20,9 @@ import lombok.Data;
  }
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AggregatedPrice {
 
   private String baseCurrency;
@@ -28,4 +34,19 @@ public class AggregatedPrice {
   private String highAsk;
   private String lowBid;
   private String lowAsk;
+
+  @Override
+  public String toString() {
+    return "{\"AggregatedPrice\":{"
+        + "        \"baseCurrency\":\"" + baseCurrency + "\""
+        + ",         \"quoteCurrency\":\"" + quoteCurrency + "\""
+        + ",         \"closeTime\":\"" + closeTime + "\""
+        + ",         \"averageBid\":\"" + averageBid + "\""
+        + ",         \"averageAsk\":\"" + averageAsk + "\""
+        + ",         \"highBid\":\"" + highBid + "\""
+        + ",         \"highAsk\":\"" + highAsk + "\""
+        + ",         \"lowBid\":\"" + lowBid + "\""
+        + ",         \"lowAsk\":\"" + lowAsk + "\""
+        + "}}";
+  }
 }
