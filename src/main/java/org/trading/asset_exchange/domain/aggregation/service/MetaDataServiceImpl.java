@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.trading.asset_exchange.infrastruture.entity.MetaDataEntity;
 import org.trading.asset_exchange.infrastruture.repository.MetaDataRepository;
 
@@ -20,6 +21,7 @@ public class MetaDataServiceImpl implements MetaDataService{
   }
 
   @Override
+  @Transactional
   public MetaDataEntity save(MetaDataEntity entity) {
     return metaDataRepository.save(entity);
   }
