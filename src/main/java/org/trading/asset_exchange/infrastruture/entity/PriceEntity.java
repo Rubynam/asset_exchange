@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -30,6 +31,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Table(name = "price")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class PriceEntity implements Serializable {
 
   @Id
