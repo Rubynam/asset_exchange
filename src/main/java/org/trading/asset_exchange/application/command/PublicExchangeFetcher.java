@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.trading.asset_exchange.application.port.Transformer;
 import org.trading.asset_exchange.domain.SourceProvider;
+import org.trading.asset_exchange.domain.aggregation.model.SourceProviderParams;
 import org.trading.asset_exchange.domain.aggregation.service.Fetcher;
 import org.trading.asset_exchange.domain.aggregation.service.FxdsApiFetcher;
 import org.trading.asset_exchange.domain.aggregation.model.AggregatedPrice;
@@ -24,7 +25,7 @@ import org.trading.asset_exchange.util.DateTimeFormatterUtil;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class PublicExchangeFetcher implements Command<String, List<AggregatedPrice>>{
+public class PublicExchangeFetcher implements Command<SourceProviderParams, List<AggregatedPrice>>{
 
   private final Map<String, Triple<SourceProvider,Fetcher,ProviderEntry>> FACTORY = new ConcurrentHashMap<>();
   private final ProviderConfig providerConfig;
@@ -45,8 +46,8 @@ public class PublicExchangeFetcher implements Command<String, List<AggregatedPri
   }
 
   @Override
-  public List<AggregatedPrice> execute(String input) throws Exception {
-    var triple = Optional.ofNullable(FACTORY.get(input))
+  public List<AggregatedPrice> execute(SourceProviderParams input) throws Exception {
+    var triple = Optional.ofNullable(FACTORY.get(input.getName()))
         .orElseThrow(() -> new IllegalArgumentException("Invalid provider name: " + input));
     ProviderEntry entry = triple.getRight();
 
@@ -54,9 +55,15 @@ public class PublicExchangeFetcher implements Command<String, List<AggregatedPri
     Fetcher fetcher = triple.getMiddle();
     updateStartDateAndEndDate(entry);
 
+    if(!entry.getParameters().isEmpty()) {
+      entry.getParameters().putAll((Map<? extends String, ? extends String>) input.getParams());
+    }
+
     switch (provider) {
       case FXDS:
-        var fxdsPrices = ((FxdsApiFetcher) fetcher).fetchData(entry.getUrl(),
+        String url = Optional.ofNullable(entry.getUrl())
+            .orElse(findUrl(provider));
+        var fxdsPrices = ((FxdsApiFetcher) fetcher).fetchData(url,
             entry.getParameters());
         return fxdsPrices.stream()
             .map(transformer::transform)
@@ -64,6 +71,15 @@ public class PublicExchangeFetcher implements Command<String, List<AggregatedPri
       default:
         throw new IllegalStateException("Unexpected value: " + provider);
     }
+  }
+
+  private String findUrl(SourceProvider provider) {
+    for(ProviderEntry entry : providerConfig.getProviderEntries()) {
+      if(entry.getName().equals(provider.name())) {
+        return entry.getUrl();
+      }
+    }
+    throw new IllegalArgumentException("Invalid provider name: " + provider);
   }
 
   private void updateStartDateAndEndDate(ProviderEntry entry) {

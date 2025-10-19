@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.trading.asset_exchange.application.command.PriceCommand;
 import org.trading.asset_exchange.application.command.PublicExchangeFetcher;
+import org.trading.asset_exchange.application.port.SourceProviderConfigTransformer;
 import org.trading.asset_exchange.application.query.MetadataQuery;
 import org.trading.asset_exchange.domain.SourceProvider;
 import org.trading.asset_exchange.domain.aggregation.model.AggregatedPrice;
@@ -23,12 +24,14 @@ public class DataFetcher {
   private final ProviderConfig providerConfig;
   private final MetadataQuery metadataQuery;
   private final PriceCommand priceCommand;
+  private final SourceProviderConfigTransformer sourceProviderConfigTransformer;
 
   @Scheduled(fixedRateString = "${schedule.fixed-rate}")
   public void fetchData() throws Exception {
     List<AggregatedPrice> aggregatedPrices = new LinkedList<>();
     for (ProviderEntry entry : providerConfig.getProviderEntries()){
-      List<AggregatedPrice> patchedData = publicExchangeFetcher.execute(entry.getName());
+      var params = sourceProviderConfigTransformer.transform(entry);
+      List<AggregatedPrice> patchedData = publicExchangeFetcher.execute(params);
       log.debug("Fetched data for provider: {} data: {}",entry.getName(),patchedData);
       aggregatedPrices.addAll(patchedData);
     }
@@ -38,10 +41,11 @@ public class DataFetcher {
   @Scheduled(fixedRateString = "${schedule.fixed-rate}")
   public void fetchDataByConfig() throws Exception {
     List<AggregatedPrice> aggregatedPrices = new LinkedList<>();
-    for (MetadataResponse entry : metadataQuery.getMetaData()){
-      String providerName = metadataQuery.getProviderNameOrDefault(entry.metadata(), SourceProvider.FXDS.getName());
-      List<AggregatedPrice> patchedData = publicExchangeFetcher.execute(providerName);
-      log.debug("Fetched data for provider: {} data: {} metadata {}",providerName,patchedData, entry.metadata());
+    for (ProviderEntry entry : metadataQuery.getProviderEntries()){
+      String providerName = metadataQuery.getProviderNameOrDefault(entry.getParameters(), SourceProvider.FXDS.getName());
+      var params = sourceProviderConfigTransformer.transform(entry);
+      List<AggregatedPrice> patchedData = publicExchangeFetcher.execute(params);
+      log.debug("Fetched data for provider: {} data: {} metadata {}",providerName,patchedData, entry.getParameters());
       aggregatedPrices.addAll(patchedData);
     }
     priceCommand.execute(aggregatedPrices);

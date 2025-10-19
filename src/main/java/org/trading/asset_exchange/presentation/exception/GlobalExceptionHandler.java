@@ -3,15 +3,18 @@ package org.trading.asset_exchange.presentation.exception;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.trading.asset_exchange.presentation.response.ErrorResponse;
 
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -32,8 +35,21 @@ public class GlobalExceptionHandler {
   }
 
 
-  @ExceptionHandler(value = {IllegalArgumentException.class, UnsupportedClassVersionError.class})
-  public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
+  @ExceptionHandler(value = {IllegalArgumentException.class,
+      MissingServletRequestParameterException.class})
+  public ResponseEntity<ErrorResponse> handleIllegalArgumentException(Exception ex) {
+    log.warn("Invalid argument passed: {}", ex.getMessage(),ex);
+    ErrorResponse errorResponse = new ErrorResponse(
+        ex.getMessage(),
+        "Invalid argument passed.",
+        LocalDateTime.now(),
+        HttpStatus.BAD_REQUEST.name()
+    );
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(value = {UnsupportedClassVersionError.class})
+  public ResponseEntity<ErrorResponse> handleIllegalArgumentException(UnsupportedClassVersionError ex) {
     ErrorResponse errorResponse = new ErrorResponse(
         ex.getMessage(),
         "Invalid argument passed.",
@@ -45,6 +61,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {
+    log.error("Global exception occurred: {}", ex.getMessage(), ex);
     ErrorResponse errorResponse = new ErrorResponse(
         "An unexpected error occurred.",
         ex.getMessage(),

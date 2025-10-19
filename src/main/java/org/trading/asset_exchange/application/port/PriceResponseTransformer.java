@@ -11,8 +11,8 @@ public class PriceResponseTransformer implements Transformer<PriceEntity, PriceR
 
   @Override
   public PriceResponse transform(PriceEntity input) {
-    BigDecimal bidPrice = BigDecimal.valueOf(Long.parseLong(input.getAverageBid()));
-    BigDecimal askPrice = BigDecimal.valueOf(Long.parseLong(input.getAverageAsk()));
+    BigDecimal bidPrice = BigDecimal.valueOf(Double.parseDouble(input.getAverageBid()));
+    BigDecimal askPrice = BigDecimal.valueOf(Double.parseDouble(input.getAverageAsk()));
     String updatedAt = DateTimeFormatterUtil.getFormattedDate(input.getTimestamp(), DateTimeFormatterUtil.YYYY_MM_DD);
     return new PriceResponse(input.getBaseCurrency(), input.getQuoteCurrency(), bidPrice, askPrice, updatedAt);
   }

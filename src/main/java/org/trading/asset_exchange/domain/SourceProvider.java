@@ -11,9 +11,9 @@ public enum SourceProvider {
 
   private final String name;
   private final String fetcherClass;
-  private final Class<?> configClass;
+  private final Class<? extends ProviderEntry> configClass;
 
-  private SourceProvider(String name, String fetcherClass, Class<?> configClass) {
+  private SourceProvider(String name, String fetcherClass, Class<? extends ProviderEntry> configClass) {
     this.name = name;
     this.fetcherClass = fetcherClass;
     this.configClass = configClass;

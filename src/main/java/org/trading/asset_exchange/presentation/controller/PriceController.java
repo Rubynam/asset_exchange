@@ -1,5 +1,7 @@
 package org.trading.asset_exchange.presentation.controller;
 
+import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,13 +24,13 @@ public class PriceController {
 
   @GetMapping
   public Page<PriceResponse> getPrices(@PathVariable("version") String version,
-      @RequestParam(required = true) String baseCurrency,
-      @RequestParam(required = true) String quoteCurrency,
+      @RequestParam(required = true) @Nonnull String base,
+      @RequestParam(required = true) @Nonnull String quote,
       @RequestParam(required = true,defaultValue = "0") int page,
       @RequestParam(required = true,defaultValue = "10") int size) {
     //todo need to refactor code
     return priceQueryDispatcher.dispatch(Integer.parseInt(version),
-        Map.of("baseCurrency", baseCurrency,"quoteCurrency",quoteCurrency, "page", String.valueOf(page), "size", String.valueOf(size))
+        Map.of("baseCurrency", base,"quoteCurrency",quote, "page", String.valueOf(page), "size", String.valueOf(size))
     );
   }
 

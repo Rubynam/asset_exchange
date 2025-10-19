@@ -19,9 +19,9 @@ public class ProviderConfig {
   @Getter
   @Setter
   public static class ProviderEntry{
-    private String name;
-    private String url;
-    private Map<String, String> parameters;
+    protected String name;
+    protected String url;
+    protected Map<String, String> parameters;
 
     @Override
     public String toString() {
