@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  asset_exchange:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: asset_exchange/app:latest
+    ports:
+      - "8080:8080"
