@@ -22,17 +22,6 @@ CREATE TABLE CURRENCY_PAIR (
 );
 
 
-/*
-  private String baseCurrency;
-  private String quoteCurrency;
-  private String closeTime;
-  private String averageBid;
-  private String averageAsk;
-  private String highBid;
-  private String highAsk;
-  private String lowBid;
-  private String lowAsk;
-*/
 CREATE TABLE IF NOT EXISTS price (
      id BIGINT AUTO_INCREMENT PRIMARY KEY,
      base_currency  TEXT NOT NULL,
@@ -45,6 +34,12 @@ CREATE TABLE IF NOT EXISTS price (
      low_bid        TEXT,
      low_ask        TEXT,
      updated_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+create table if not exists metadata (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    metadata text not null,
+    updated_at timestamptz not null default now()
 );
 
 CREATE INDEX IF NOT EXISTS idx_price_base_quote ON price (base_currency, quote_currency);
