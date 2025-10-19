@@ -18,7 +18,7 @@ public class MetadataQuery {
     var entityList = metaDataService.getMetaData();
     return entityList.stream().map(item->{
         var json = metaDataAsMapTransformer.transform(item);
-        return new MetadataResponse(json,item.getUpdatedAt());
+        return new MetadataResponse(item.getId(),json,item.getUpdatedAt());
         }).toList();
   }
 }

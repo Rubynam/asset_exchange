@@ -38,3 +38,14 @@ spring:
     console:
       enabled: false
       path: /h2-console
+
+logging:
+  level:
+    org.zalando.logbook.Logbook: TRACE
+logbook:
+
+  filter:
+    enabled: true
+  format:
+    style: json
+

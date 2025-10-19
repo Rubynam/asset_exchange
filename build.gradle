@@ -31,8 +31,8 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation
     implementation("org.springframework.boot:spring-boot-starter-validation:3.5.5")
-    implementation("org.zalando:logbook-spring-boot-starter:3.0.0")
-
+// https://mvnrepository.com/artifact/org.zalando/logbook-spring-boot-starter
+    implementation("org.zalando:logbook-spring-boot-starter:3.12.3")
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation("com.google.code.gson:gson:2.13.2")
 

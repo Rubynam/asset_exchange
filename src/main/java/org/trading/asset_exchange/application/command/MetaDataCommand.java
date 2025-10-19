@@ -28,6 +28,6 @@ public class MetaDataCommand implements Command<Map<String,?>, MetadataResponse>
         .build();
     var output = metaDataService.save(metaDataEntity);
 
-    return new MetadataResponse(input,output.getUpdatedAt());
+    return new MetadataResponse(output.getId(),input,output.getUpdatedAt());
   }
 }
