@@ -36,6 +36,12 @@ CREATE TABLE IF NOT EXISTS price (
      updated_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+create table if not exists metadata (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    metadata text not null,
+    updated_at timestamptz not null default now()
+);
+
 CREATE INDEX IF NOT EXISTS idx_price_base_quote ON price (base_currency, quote_currency);
 
 
