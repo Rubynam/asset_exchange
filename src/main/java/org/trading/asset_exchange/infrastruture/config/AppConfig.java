@@ -1,6 +1,7 @@
 package org.trading.asset_exchange.infrastruture.config;
 
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
+@EnableAutoConfiguration
 @EnableAspectJAutoProxy(exposeProxy = true)
 public class AppConfig {
 
