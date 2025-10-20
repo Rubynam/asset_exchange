@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.trading.asset_exchange.domain.aggregation.model.PriceQueryContract;
 import org.trading.asset_exchange.infrastruture.entity.PriceEntity;
 import org.trading.asset_exchange.infrastruture.repository.PriceRepository;
@@ -26,7 +25,6 @@ public class PriceServiceV1 implements PriceService{
   }
 
   @Override
-  @Transactional
   public List<PriceEntity> saveAll(List<PriceEntity> entities) {
     return priceRepository.saveAll(entities);
   }

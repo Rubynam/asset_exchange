@@ -38,7 +38,6 @@ class PriceControllerTest extends BaseComponentTest {
         .pollInterval(1, TimeUnit.SECONDS)
         .until(() -> {
           try {
-            ParameterizedTypeReference<Page<PriceResponse>> responseType = new ParameterizedTypeReference<Page<PriceResponse>>() {};
             MvcResult result = mockMvc.perform(
                     MockMvcRequestBuilders.get("/v1/price?base=EUR&quote=USD")
                         .contentType(MediaType.APPLICATION_JSON))
