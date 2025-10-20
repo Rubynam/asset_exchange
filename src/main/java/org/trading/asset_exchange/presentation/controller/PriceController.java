@@ -33,9 +33,4 @@ public class PriceController {
         Map.of("baseCurrency", base,"quoteCurrency",quote, "page", String.valueOf(page), "size", String.valueOf(size))
     );
   }
-
-  @PutMapping(path = "/{quote}")
-  public void updatePrice(@PathVariable("version") String version, @PathVariable("quote") String quote) {
-
-  }
 }

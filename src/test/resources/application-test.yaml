@@ -19,7 +19,7 @@ providers:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:asset_exchange-db;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
     driver-class-name: org.h2.Driver
     username: sa
     password:
@@ -29,11 +29,9 @@ spring:
       schema-locations: classpath:/db/migration/schema.sql
   jpa:
     hibernate:
-      ddl-auto: none
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: true
+      ddl-auto: create-drop
+    show-sql: true
+
   h2:
     console:
       enabled: false

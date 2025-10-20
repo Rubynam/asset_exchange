@@ -14,7 +14,6 @@ import org.trading.asset_exchange.domain.SourceProvider;
 import org.trading.asset_exchange.domain.aggregation.model.AggregatedPrice;
 import org.trading.asset_exchange.infrastruture.config.ProviderConfig;
 import org.trading.asset_exchange.infrastruture.config.ProviderConfig.ProviderEntry;
-import org.trading.asset_exchange.presentation.response.MetadataResponse;
 
 @Service
 @Slf4j
