@@ -1,4 +1,6 @@
 
+
+
 CREATE TABLE IF NOT EXISTS price (
      id BIGINT AUTO_INCREMENT PRIMARY KEY,
      base_currency  TEXT NOT NULL,
