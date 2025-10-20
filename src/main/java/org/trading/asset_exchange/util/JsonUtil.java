@@ -25,5 +25,4 @@ public final class JsonUtil {
   public static String mapToJsonString(Map<String, ?> map) {
     return GSON.toJson(map);
   }
-
 }
