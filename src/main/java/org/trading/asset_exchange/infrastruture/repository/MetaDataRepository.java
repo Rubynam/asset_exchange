@@ -6,6 +6,4 @@ import org.trading.asset_exchange.infrastruture.entity.MetaDataEntity;
 
 @Repository
 public interface MetaDataRepository extends JpaRepository<MetaDataEntity, Long> {
-
-
 }
