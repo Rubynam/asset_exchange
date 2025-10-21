@@ -3,6 +3,7 @@ package org.trading.asset_exchange.presentation.exception;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import jdk.jshell.spi.ExecutionControl.NotImplementedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,11 +49,11 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler(value = {UnsupportedClassVersionError.class})
-  public ResponseEntity<ErrorResponse> handleIllegalArgumentException(UnsupportedClassVersionError ex) {
+  @ExceptionHandler(value = {NotImplementedException.class})
+  public ResponseEntity<ErrorResponse> handleNotImplementedException(NotImplementedException ex) {
     ErrorResponse errorResponse = new ErrorResponse(
         ex.getMessage(),
-        "Invalid argument passed.",
+        "Unsupported function is not implemented yet",
         LocalDateTime.now(),
         HttpStatus.BAD_REQUEST.name()
     );

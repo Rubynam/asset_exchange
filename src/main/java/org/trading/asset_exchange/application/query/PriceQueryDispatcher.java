@@ -3,6 +3,7 @@ package org.trading.asset_exchange.application.query;
 import jakarta.annotation.PostConstruct;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import jdk.jshell.spi.ExecutionControl.NotImplementedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
@@ -27,7 +28,8 @@ public class PriceQueryDispatcher {
     FACTORY.put(1, PriceServiceV1.class);
   }
 
-  public Page<PriceResponse> dispatch(int version, Map<String, String> params) {
+  public Page<PriceResponse> dispatch(int version, Map<String, String> params)
+      throws UnsupportedOperationException, NotImplementedException {
     switch (version) {
       case 1:
         PriceQueryV1 input =  PriceQueryV1.builder()
@@ -38,7 +40,7 @@ public class PriceQueryDispatcher {
             .build();
         return queryV1(input);
       default:
-        throw new IllegalArgumentException("Unsupported PriceQuery version: " + version);
+        throw new NotImplementedException("Unsupported PriceQuery version: " + version);
     }
   }
 

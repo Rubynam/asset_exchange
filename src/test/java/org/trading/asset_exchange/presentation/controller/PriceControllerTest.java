@@ -80,12 +80,4 @@ class PriceControllerTest extends BaseComponentTest {
 
   }
 
-
-  static class PricePageDto {
-    public int number;
-    public int size;
-    public long totalElements;
-    public List<PriceResponse> content;
-
-  }
 }

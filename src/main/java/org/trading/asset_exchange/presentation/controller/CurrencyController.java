@@ -2,6 +2,7 @@ package org.trading.asset_exchange.presentation.controller;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +48,7 @@ public class CurrencyController {
 
   @PostMapping
   public ResponseEntity<MetadataResponse> createMetaData(
-      @RequestBody SymbolRequest symbolRequest)
+      @RequestBody @Valid SymbolRequest symbolRequest)
       throws Exception {
     return new ResponseEntity<>(metaDataCommand.execute(symbolRequest), HttpStatus.ACCEPTED);
   }
