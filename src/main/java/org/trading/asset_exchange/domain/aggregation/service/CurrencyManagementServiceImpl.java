@@ -1,9 +1,12 @@
 package org.trading.asset_exchange.domain.aggregation.service;
 
+import jakarta.transaction.Transactional;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.trading.asset_exchange.infrastruture.entity.PriceEntity;
 import org.trading.asset_exchange.infrastruture.repository.PriceRepository;
 
 @Service
@@ -18,8 +21,10 @@ public class CurrencyManagementServiceImpl implements CurrencyManagementService 
   }
 
   @Override
+  @Transactional
   public Void deleteCurrency(String baseCurrency) {
-    priceRepository.deleteByBaseCurrency(baseCurrency);
+    List<PriceEntity> priceEntities = priceRepository.findPriceEntitiesByBaseCurrency(baseCurrency);
+    priceRepository.deleteAll(priceEntities);
     return null;
   }
 }

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -71,5 +72,34 @@ class CurrencyControllerTest extends BaseComponentTest {
     MetadataResponse metadataResponse = objectMapper.readValue(content, new com.fasterxml.jackson.core.type.TypeReference<MetadataResponse>() {});
 
     assertEquals(1L,metadataResponse.id());
+    Map<String,?> metadata = metadataResponse.metadata();
+
+    assertEquals("JPY",metadata.get("base"));
+    assertEquals("USD",metadata.get("quote"));
+  }
+
+  @Test
+  void deleteMetaData() throws Exception {
+    MvcResult createdResult = mockMvc.perform(
+            MockMvcRequestBuilders.post("/currency")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{"
+                    + "    \"base\": \"JPY\",\n"
+                    + "    \"quote\": \"USD\",\n"
+                    + "    \"data_type\": \"chart\"\n"
+                    + "}")
+        )
+        .andReturn();
+    assertThat(createdResult.getResponse().getStatus()).isEqualTo(202);
+
+
+    MvcResult result = mockMvc.perform(
+            MockMvcRequestBuilders.delete("/currency/JPY")
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+        .andReturn();
+
+    int status = result.getResponse().getStatus();
+    assertThat(status).isEqualTo(200);
   }
 }
