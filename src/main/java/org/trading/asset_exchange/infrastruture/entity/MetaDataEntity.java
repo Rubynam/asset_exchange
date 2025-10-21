@@ -25,7 +25,7 @@ public class MetaDataEntity implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "metadata",columnDefinition = "JSON")
+  @Column(name = "metadata")
   private String metadata;
 
   @Column(name = "updated_at")

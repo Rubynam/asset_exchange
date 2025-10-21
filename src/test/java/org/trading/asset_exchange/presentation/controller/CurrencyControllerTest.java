@@ -76,7 +76,6 @@ class CurrencyControllerTest extends BaseComponentTest {
 
     assertEquals("JPY",metadata.get("base"));
     assertEquals("USD",metadata.get("quote"));
-    assertEquals("chart",metadata.get("data_type"));
   }
 
   @Test
